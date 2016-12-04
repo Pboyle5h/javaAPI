@@ -1,1 +1,1 @@
-heroku ps:scale worker=3
+web ps:scale worker=3
