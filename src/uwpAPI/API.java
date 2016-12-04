@@ -41,7 +41,7 @@ public static Boolean valid=true;
 
 	public static void main(String[] args) {
 		
-		port(Integer.valueOf(System.getenv("PORT")));
+		//port(Integer.valueOf(System.getenv("PORT")));
 		MongoClientURI uri  = new MongoClientURI("mongodb://test:test@ds143777.mlab.com:43777/heroku_6shk89xn"); 
         MongoClient client = new MongoClient(uri);
         DB db = client.getDB(uri.getDatabase());
