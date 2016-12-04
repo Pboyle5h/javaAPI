@@ -1,4 +1,4 @@
-package uwpAPI;
+package main.java;
 
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
