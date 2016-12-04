@@ -48,10 +48,10 @@ public static Boolean valid=true;
         DBCollection user = db.getCollection("Users");
 		
 		get("/login/:Username/:Password", (request, response) -> {
+			
 			String username = request.params(":Username");
 			String password = request.params(":Password");
-			;
-			System.out.println(""+username+" "+password);
+			//System.out.println(""+username+" "+password);
 
 				    try {
 				    	
