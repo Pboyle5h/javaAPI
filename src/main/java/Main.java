@@ -327,22 +327,22 @@ public static Boolean valid=true;
 			System.out.println(""+username);
 			
 			try {
-		    	
-		        
-		        BasicDBObject findQuery = new BasicDBObject("Username", username);
-		        
+				 ArrayList<BasicDBObject> mess = new ArrayList<BasicDBObject>();
+				BasicDBObject query = new BasicDBObject();
 
-		        DBCursor docs = user.find(findQuery);
-		        
-		        while(docs.hasNext()){
+				query.put("TimeOff", 1);
+				DBCursor docs = user.find(query);
+
+				while (docs.hasNext()) {
+		        	//System.out.println(docs.next());
 		        	
-		            DBObject doc = docs.next();
-		            
-		            	 ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
-		            	 obj.add((BasicDBObject) doc.get("TimeOff"));		            	
-		            	 return obj ;            
-		            	
-		            }
+					mess.add((BasicDBObject) docs.next());
+	            	
+	            	 System.out.println(mess);
+	             
+		        }
+				return mess;
+		        
 		           
 		        }
 		        catch (MongoException e) {
