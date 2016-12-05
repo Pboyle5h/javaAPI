@@ -34,7 +34,7 @@ import com.mongodb.client.MongoCollection;
 
 
  
-public class API {
+public class Main {
 	
 public static Boolean valid=true;	
 
