@@ -42,8 +42,10 @@ public static Boolean valid=true;
 	public static void main(String[] args) {
 		
 		port(Integer.valueOf(System.getenv("PORT")));
-		//MongoConnection mc = new MongoConnection("mongodb://test:test@ds143777.mlab.com:43777/heroku_6shk89xn", "heroku_6shk89xn");
-
+		MongoClientURI uri  = new MongoClientURI("mongodb://test:test@ds143777.mlab.com:43777/heroku_6shk89xn"); 
+        MongoClient client = new MongoClient(uri);
+        DB db = client.getDB(uri.getDatabase());
+        DBCollection user = db.getCollection("Users");
 
 		get("/login/:Username/:Password", (request, response) -> {
 			String username = request.params(":Username");
@@ -51,13 +53,7 @@ public static Boolean valid=true;
 			String role="";
 			System.out.println(""+username+" "+password);
 
-				    try {
-				    	MongoClientURI uri  = new MongoClientURI("mongodb://test:test@ds143777.mlab.com:43777/heroku_6shk89xn"); 
-				        MongoClient client = new MongoClient(uri);
-				        DB db = client.getDB(uri.getDatabase());
-				        DBCollection user = db.getCollection("Users");
-				        
-				        
+				    try {			    			        
 
 				        BasicDBObject findQuery = new BasicDBObject("Username", username);
 				        
@@ -98,11 +94,7 @@ public static Boolean valid=true;
 			System.out.println(""+username+" "+password+" "+role+" "+email);
 
 				    try {
-				    	MongoClientURI uri  = new MongoClientURI("mongodb://test:test@ds143777.mlab.com:43777/heroku_6shk89xn"); 
-				        MongoClient client = new MongoClient(uri);
-				        DB db = client.getDB(uri.getDatabase());
-				        DBCollection user = db.getCollection("Users");
-				        
+				    	
 				        BasicDBObject findQuery = new BasicDBObject("Username", username);
 				        
 
@@ -153,11 +145,7 @@ public static Boolean valid=true;
 			System.out.println(""+username+" "+date+" "+time+" "+details+" "+hours);
 			
 			try {
-		    	MongoClientURI uri  = new MongoClientURI("mongodb://test:test@ds143777.mlab.com:43777/heroku_6shk89xn"); 
-		        MongoClient client = new MongoClient(uri);
-		        DB db = client.getDB(uri.getDatabase());
-		        DBCollection user = db.getCollection("Users");
-		        
+		    	
 		        BasicDBObject findQuery = new BasicDBObject("Username", username);
 		        
 
@@ -245,15 +233,56 @@ public static Boolean valid=true;
 		});
 		
 		
+		get("/message/:username/:date/:details", (request, response) -> {
+
+			String username = request.params(":username");
+			String date = request.params(":date");
+			String details = request.params(":details");
+
+			
+			try {
+		    	
+		        
+		        BasicDBObject findQuery = new BasicDBObject("Username", username);
+		        
+
+		        DBCursor docs = user.find(findQuery);
+		        
+		        while(docs.hasNext()){
+		        	
+		            DBObject doc = docs.next();
+		            if(username.equals(doc.get("Username"))){
+		            	BasicDBObject set = new BasicDBObject("$set", new BasicDBObject("Username", username));
+		            	
+				    		
+							set.append("$set", new BasicDBObject("TimeOff", new BasicDBObject("Date", date)
+							.append("Details", details)));								
+							user.update(docs.curr(), set);
+		            	return "success";
+		            	
+		            }
+		           
+		        }
+		                  
+		        	
+			
+		    } catch (MongoException e) {
+		    	e.printStackTrace();
+		        }
+		    
+	
+	return "";
+	
+		});
+		
+		
+		
 		get("/viewRota/:username", (request, response) -> {
 			String username = request.params(":username");			
 			System.out.println(""+username);
 			
 			try {
-		    	MongoClientURI uri  = new MongoClientURI("mongodb://test:test@ds143777.mlab.com:43777/heroku_6shk89xn"); 
-		        MongoClient client = new MongoClient(uri);
-		        DB db = client.getDB(uri.getDatabase());
-		        DBCollection user = db.getCollection("Users");
+		    	
 		        
 		        BasicDBObject findQuery = new BasicDBObject("Username", username);
 		        
@@ -293,19 +322,48 @@ public static Boolean valid=true;
 	
 		});
 		
+		get("/viewMessages", (request, response) -> {
+			
+			
+			try {	    	
+		        
+		        BasicDBObject findQuery = new BasicDBObject();
+		        
+
+		        DBCursor docs = user.find(findQuery);
+		        
+		        while(docs.hasNext()){
+		        	
+		            DBObject doc = docs.next();
+		            	 ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+		            	 obj.add((BasicDBObject) doc.get("TimeOff"));
+		            	 obj.add((BasicDBObject) doc.get("Username"));
+		            	return obj ;
+		            	
+		            	
+
+						}
+				    	
+		            	
+		            	//return test;
+		            	
+		            }
+		           
+		        }
+		        catch (MongoException e) {
+		    	e.printStackTrace();
+		        }
+		    
+	
+	return "";
+	
+		});
+		
 		get("/getusername/", (request, response) -> {
 			String username = request.params(":username");			
 			System.out.println(""+username);
 			
 			try {
-		    	MongoClientURI uri  = new MongoClientURI("mongodb://test:test@ds143777.mlab.com:43777/heroku_6shk89xn"); 
-		        MongoClient client = new MongoClient(uri);
-		        DB db = client.getDB(uri.getDatabase());
-		        DBCollection user = db.getCollection("Users");
-		        
-		        
-		        
-		        
 		        BasicDBObject allQuery = new BasicDBObject();
 		        BasicDBObject fields = new BasicDBObject();
 		        fields.put("Username", 1);
@@ -330,11 +388,5 @@ public static Boolean valid=true;
 	return "";
 	
 		});
-		
-		
-		
-		
-
-		
 	}
 }
