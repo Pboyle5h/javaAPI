@@ -327,20 +327,22 @@ public static Boolean valid=true;
 			System.out.println(""+username);
 			
 			try {
-		        BasicDBObject allQuery = new BasicDBObject();
-		        BasicDBObject fields = new BasicDBObject();
-		        fields.put("TimeOff", 1);
-		        ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
-		        DBCursor docs = user.find(allQuery, fields);
-		        while (docs.hasNext()) {
-		        	//System.out.println(docs.next());
+		    	
+		        
+		        BasicDBObject findQuery = new BasicDBObject("Username", username);
+		        
+
+		        DBCursor docs = user.find(findQuery);
+		        
+		        while(docs.hasNext()){
 		        	
-	            	 obj.add((BasicDBObject) docs.next());
-	            	
-	            	 System.out.println(obj);
-	             
-		        }
-		        return obj ;
+		            DBObject doc = docs.next();
+		            
+		            	 ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+		            	 obj.add((BasicDBObject) doc.get("TimeOff"));		            	
+		            	 return obj ;            
+		            	
+		            }
 		           
 		        }
 		        catch (MongoException e) {
@@ -351,7 +353,8 @@ public static Boolean valid=true;
 	return "";
 	
 		});
-		     
+		
+			
 		
 		get("/getusername/", (request, response) -> {
 			String username = request.params(":username");			
