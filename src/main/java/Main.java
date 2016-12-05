@@ -323,11 +323,11 @@ public static Boolean valid=true;
 		});
 		
 		get("/viewMessages", (request, response) -> {
+	        ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
 			try {
 		        BasicDBObject allQuery = new BasicDBObject();
 		        BasicDBObject fields = new BasicDBObject();
 		        fields.put("TimeOff", 1);
-		        ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
 		        DBCursor docs = user.find(allQuery, fields);
 		        while (docs.hasNext()) {
 		        	//System.out.println(docs.next());
@@ -337,7 +337,7 @@ public static Boolean valid=true;
 	            	 System.out.println(obj);
 	             
 		        }
-		        return obj ;
+		        
 		           
 		        }
 		        catch (MongoException e) {
@@ -345,7 +345,7 @@ public static Boolean valid=true;
 		        }
 		    
 	
-			return "" ;
+			return obj ;
 	
 		});
 		
