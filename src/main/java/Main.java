@@ -48,6 +48,7 @@ public static Boolean valid=true;
 		get("/login/:Username/:Password", (request, response) -> {
 			String username = request.params(":Username");
 			String password = request.params(":Password");
+			String role="";
 			System.out.println(""+username+" "+password);
 
 				    try {
@@ -65,23 +66,27 @@ public static Boolean valid=true;
 				        
 				        while(docs.hasNext()){
 				        	
-				            DBObject doc = docs.next();
-				            
+				            DBObject doc = docs.next();			            
 				            	
-				            if(username.equals(doc.get("Username"))){
-				            	
+				            if(username.equals(doc.get("Username"))&& password.equals(doc.get("Password")))
+				            {			            
+				           	
+				            	role = (String) doc.get("Role");	
+				            	break;
+				            }				            
+				            else{
 				            	valid=false;
-				            	return doc.get("Role");
 				            }
 				        }    		  			    				    			    	                
 					    } catch (MongoException e) {
 				    	e.printStackTrace();
 				        }
-			
-			
-			return "";
-			
-			
+				    if(valid==false){
+				    	return "false";
+				    }
+				    else{
+				    	return role;
+				    }		
 		});
 		
 		// basic help response to a blank call to the webpage
