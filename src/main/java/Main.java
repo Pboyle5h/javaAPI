@@ -323,6 +323,9 @@ public static Boolean valid=true;
 		});
 		
 		get("/viewMessages", (request, response) -> {
+			String username = request.params(":username");			
+			System.out.println(""+username);
+			
 			try {
 		        BasicDBObject allQuery = new BasicDBObject();
 		        BasicDBObject fields = new BasicDBObject();
@@ -345,9 +348,10 @@ public static Boolean valid=true;
 		        }
 		    
 	
-			return "" ;
+	return "";
 	
 		});
+		     
 		
 		get("/getusername/", (request, response) -> {
 			String username = request.params(":username");			
