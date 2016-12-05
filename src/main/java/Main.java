@@ -323,13 +323,16 @@ public static Boolean valid=true;
 		});
 		
 		get("/viewMessages", (request, response) -> {
+			
+		  
+		 
 			try {
-		        BasicDBObject allQuery = new BasicDBObject();
-		        BasicDBObject fields = new BasicDBObject();		        
-		        fields.put("TimeOff", 1);
-		        fields.put("Username", 2);
-		        ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
-		        DBCursor docs = user.find(allQuery, fields);
+				BasicDBObject andQuery = new BasicDBObject();
+			    List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+			    obj.add(new BasicDBObject("Username", 1));
+			    obj.add(new BasicDBObject("TimeOff", 2));
+			    andQuery.put("$and", obj);
+		        DBCursor docs = user.find(andQuery);
 		        while (docs.hasNext()) {
 		        	//System.out.println(docs.next());
 		        	
