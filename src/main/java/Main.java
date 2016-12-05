@@ -323,26 +323,21 @@ public static Boolean valid=true;
 		});
 		
 		get("/viewMessages", (request, response) -> {
-			ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
-			
-			try {	    	
-		        
-		        BasicDBObject findQuery = new BasicDBObject();
-		        
-
-		        DBCursor docs = user.find(findQuery);
-		        
-		        while(docs.hasNext()){
+			try {
+		        BasicDBObject allQuery = new BasicDBObject();
+		        BasicDBObject fields = new BasicDBObject();
+		        fields.put("TimeOff", 1);
+		        ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+		        DBCursor docs = user.find(allQuery, fields);
+		        while (docs.hasNext()) {
+		        	//System.out.println(docs.next());
 		        	
-		            DBObject doc = docs.next();
-		            	 
-		            	 obj.add((BasicDBObject) doc.get("TimeOff"));
-		            	// obj.add((BasicDBObject) doc.get("Username"));
-		            
-		            	
-		            
-		            	
-		            }
+	            	 obj.add((BasicDBObject) docs.next());
+	            	
+	            	 System.out.println(obj);
+	             
+		        }
+		        return obj ;
 		           
 		        }
 		        catch (MongoException e) {
@@ -350,7 +345,7 @@ public static Boolean valid=true;
 		        }
 		    
 	
-			return obj ;
+			return "" ;
 	
 		});
 		
