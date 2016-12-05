@@ -253,8 +253,7 @@ public static Boolean valid=true;
 		            DBObject doc = docs.next();
 		            if(username.equals(doc.get("Username"))){
 		            	BasicDBObject set = new BasicDBObject("$set", new BasicDBObject("Username", username));
-		            	
-				    		
+		            		set.append("$set", new BasicDBObject("Off", new BasicDBObject()));
 							set.append("$set", new BasicDBObject("TimeOff", new BasicDBObject("Date", date)
 							.append("Details", details)));								
 							user.update(docs.curr(), set);
@@ -339,14 +338,6 @@ public static Boolean valid=true;
 		            	 obj.add((BasicDBObject) doc.get("TimeOff"));
 		            	 obj.add((BasicDBObject) doc.get("Username"));
 		            	return obj ;
-		            	
-		            	
-
-						}
-				    	
-		            	
-		            	//return test;
-		            	
 		            }
 		           
 		        }
