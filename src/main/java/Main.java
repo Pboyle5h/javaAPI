@@ -323,26 +323,23 @@ public static Boolean valid=true;
 		});
 		
 		get("/viewMessages", (request, response) -> {
-			String username = request.params(":username");			
-			System.out.println(""+username);
+			
 			
 			try {
-				 ArrayList<BasicDBObject> mess = new ArrayList<BasicDBObject>();
-				BasicDBObject query = new BasicDBObject();
-
-				query.put("TimeOff", 1);
-				DBCursor docs = user.find(query);
-
-				while (docs.hasNext()) {
+		        BasicDBObject allQuery = new BasicDBObject();
+		        BasicDBObject fields = new BasicDBObject();
+		        fields.put("TimeOff", 8);
+		        ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+		        DBCursor docs = user.find(allQuery, fields);
+		        while (docs.hasNext()) {
 		        	//System.out.println(docs.next());
 		        	
-					mess.add((BasicDBObject) docs.next());
+	            	 obj.add((BasicDBObject) docs.next());
 	            	
-	            	 System.out.println(mess);
+	            	 System.out.println(obj);
 	             
 		        }
-				return mess;
-		        
+		        return obj ;
 		           
 		        }
 		        catch (MongoException e) {
@@ -351,6 +348,7 @@ public static Boolean valid=true;
 		    
 	
 	return "";
+	
 	
 		});
 		
