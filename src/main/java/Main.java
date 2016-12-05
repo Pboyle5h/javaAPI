@@ -307,7 +307,7 @@ public static Boolean valid=true;
 						}
 				    	
 		            	
-		            	
+		            	//return test;
 		            	
 		            }
 		           
@@ -322,7 +322,7 @@ public static Boolean valid=true;
 		});
 		
 		get("/viewMessages", (request, response) -> {
-			 ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+			
 			
 			try {	    	
 		        
@@ -334,10 +334,10 @@ public static Boolean valid=true;
 		        while(docs.hasNext()){
 		        	
 		            DBObject doc = docs.next();
-		            	
+		            	 ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
 		            	 obj.add((BasicDBObject) doc.get("TimeOff"));
 		            	 obj.add((BasicDBObject) doc.get("Username"));
-		            	
+		            	return obj ;
 		            }
 		           
 		        }
@@ -346,7 +346,7 @@ public static Boolean valid=true;
 		        }
 		    
 	
-			return obj ;
+	return "";
 	
 		});
 		
