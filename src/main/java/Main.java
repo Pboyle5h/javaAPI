@@ -256,7 +256,6 @@ public static Boolean valid=true;
 		            	
 				    		
 							set.append("$set", new BasicDBObject("TimeOff", new BasicDBObject("Date", date)
-							.append("User", username)
 							.append("Details", details)));								
 							user.update(docs.curr(), set);
 		            	return "success";
@@ -326,7 +325,7 @@ public static Boolean valid=true;
 		get("/viewMessages", (request, response) -> {
 			try {
 		        BasicDBObject allQuery = new BasicDBObject();
-		        BasicDBObject fields = new BasicDBObject();		        
+		        BasicDBObject fields = new BasicDBObject();
 		        fields.put("TimeOff", 1);
 		        ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
 		        DBCursor docs = user.find(allQuery, fields);
