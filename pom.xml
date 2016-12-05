@@ -3,7 +3,6 @@
 	<groupId>org.example</groupId>
 	<version>1.0-SNAPSHOT</version>
 	<artifactId>mysparkapp</artifactId>
-	
  <dependencies>
 		<dependency>
 			<groupId>com.sparkjava</groupId>
@@ -39,5 +38,4 @@
 			<version>20151123</version>
 		</dependency>		
 	</dependencies>
-	
 </project>
