@@ -256,6 +256,7 @@ public static Boolean valid=true;
 		            	
 				    		
 							set.append("$set", new BasicDBObject("TimeOff", new BasicDBObject("Date", date)
+							.append("User", username)
 							.append("Details", details)));								
 							user.update(docs.curr(), set);
 		            	return "success";
@@ -323,16 +324,12 @@ public static Boolean valid=true;
 		});
 		
 		get("/viewMessages", (request, response) -> {
-			
-		  
-		 
 			try {
-				BasicDBObject andQuery = new BasicDBObject();
-			    List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
-			    obj.add(new BasicDBObject("Username", 1));
-			    obj.add(new BasicDBObject("TimeOff", 2));
-			    andQuery.put("$and", obj);
-		        DBCursor docs = user.find(andQuery);
+		        BasicDBObject allQuery = new BasicDBObject();
+		        BasicDBObject fields = new BasicDBObject();		        
+		        fields.put("TimeOff", 1);
+		        ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+		        DBCursor docs = user.find(allQuery, fields);
 		        while (docs.hasNext()) {
 		        	//System.out.println(docs.next());
 		        	
