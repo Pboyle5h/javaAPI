@@ -327,7 +327,7 @@ public static Boolean valid=true;
 		        BasicDBObject allQuery = new BasicDBObject();
 		        BasicDBObject fields = new BasicDBObject();
 		        fields.put("Username", 1);
-		        fields.put("TimeOff", 1);
+		        fields.put("TimeOff", 2);
 		        ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
 		        DBCursor docs = user.find(allQuery, fields);
 		        while (docs.hasNext()) {
