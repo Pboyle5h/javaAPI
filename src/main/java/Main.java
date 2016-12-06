@@ -253,9 +253,10 @@ public static Boolean valid=true;
 		            DBObject doc = docs.next();
 		            if(username.equals(doc.get("Username"))){
 		            	BasicDBObject set = new BasicDBObject("$set", new BasicDBObject("Username", username));
-		            		set.append("$set", new BasicDBObject("Off", new BasicDBObject()));
+
 							set.append("$set", new BasicDBObject("TimeOff", new BasicDBObject("Date", date)
-							.append("Details", details)));								
+									.append("User", username)
+									.append("Details", details)));								
 							user.update(docs.curr(), set);
 		            	return "success";
 		            	
@@ -322,10 +323,12 @@ public static Boolean valid=true;
 		});
 		
 		get("/viewMessages", (request, response) -> {
-			 ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+			String username = request.params(":username");			
 			
-			try {	    	
-		        
+			
+			try {
+
+           	 ArrayList<BasicDBObject> obj = new ArrayList<BasicDBObject>();		        
 		        BasicDBObject findQuery = new BasicDBObject();
 		        
 
@@ -334,11 +337,11 @@ public static Boolean valid=true;
 		        while(docs.hasNext()){
 		        	
 		            DBObject doc = docs.next();
-		            	
-		            	 obj.add((BasicDBObject) doc.get("TimeOff"));
-		            	 obj.add((BasicDBObject) doc.get("Username"));
-		            	
+		            
+		            	 obj.add((BasicDBObject) doc.get("TimeOff"));     	
 		            }
+		        System.out.println(obj);
+		        return obj ;
 		           
 		        }
 		        catch (MongoException e) {
@@ -346,9 +349,10 @@ public static Boolean valid=true;
 		        }
 		    
 	
-			return obj ;
+	return "";
 	
 		});
+	
 		
 		get("/getusername/", (request, response) -> {
 			String username = request.params(":username");			
